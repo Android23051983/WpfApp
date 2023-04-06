@@ -76,6 +76,12 @@ namespace Calc
                     case 14:
                         btn.Click += button14_Click;
                         break;
+                    case 16:
+                        btn.Click += button16_Click;
+                        break;
+                    case 17:
+                        btn.Click += button17_Click;
+                        break;
                 }
                    
                 if (i<=3)
@@ -116,11 +122,6 @@ namespace Calc
             Grid.SetRow(btnResult, 4);
             Grid.SetColumnSpan(btnResult, 2);
         }
-
-        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            textBlock.Text = textBox.Text;
-        }
         private void button0_Click(object send, RoutedEventArgs e)
         {
             if (textBox.Text != "0")
@@ -131,75 +132,102 @@ namespace Calc
         }
         private void button4_Click(object send, RoutedEventArgs e)
         {
-            if(textBox.Text == "0")
+            if(textBlock.Text == "0")
             {
-                textBox.Clear();
+                textBlock.Text = "";
             }
-            textBox.Text += "7";
+            textBlock.Text += "7";
+            textBox.Text = textBlock.Text; 
         } 
         private void button5_Click(object send, RoutedEventArgs e)
         {
-            if (textBox.Text == "0")
+            if (textBlock.Text == "0")
             {
-                textBox.Clear();
+                textBlock.Text = "";
             }
-            textBox.Text += "8";
+            textBlock.Text += "8";
+            textBox.Text = textBlock.Text;
         }
         private void button6_Click(object send, RoutedEventArgs e)
         {
-            if (textBox.Text == "0")
+            if (textBlock.Text == "0")
             {
-                textBox.Clear();
+                textBlock.Text = "";
             }
-            textBox.Text += "9";
+            textBlock.Text += "9";
+            textBox.Text = textBlock.Text;
         }
         private void button8_Click(object send, RoutedEventArgs e)
         {
-            if (textBox.Text == "0")
+            if (textBlock.Text == "0")
             {
-                textBox.Clear();
+                textBlock.Text = "";
             }
-            textBox.Text += "4";
+            textBlock.Text += "4";
+            textBox.Text = textBlock.Text;
         }
         private void button9_Click(object send, RoutedEventArgs e)
         {
-            if (textBox.Text == "0")
+            if (textBlock.Text == "0")
             {
-                textBox.Clear();
+                textBlock.Text = "";
             }
-            textBox.Text += "5";
+            textBlock.Text += "5";
+            textBox.Text = textBlock.Text;
         }
         private void button10_Click(object send, RoutedEventArgs e)
         {
-            if (textBox.Text == "0")
+            if (textBlock.Text == "0")
             {
-                textBox.Clear();
+                textBlock.Text = "";
             }
-            textBox.Text += "6";
+            textBlock.Text += "6";
+            textBox.Text = textBlock.Text;
         }
-         private void button12_Click(object send, RoutedEventArgs e)
+        private void button12_Click(object send, RoutedEventArgs e)
         {
-            if (textBox.Text == "0")
+            if (textBlock.Text == "0")
             {
-                textBox.Clear();
+                textBlock.Text = "";
             }
-            textBox.Text += "1";
+            textBlock.Text += "1";
+            textBox.Text = textBlock.Text;
         }
-         private void button13_Click(object send, RoutedEventArgs e)
+        private void button13_Click(object send, RoutedEventArgs e)
         {
-            if (textBox.Text == "0")
+            if (textBlock.Text == "0")
             {
-                textBox.Clear();
+                textBlock.Text = "";
             }
-            textBox.Text += "2";
+            textBlock.Text += "2";
+            textBox.Text = textBlock.Text;
         }
-         private void button14_Click(object send, RoutedEventArgs e)
+        private void button14_Click(object send, RoutedEventArgs e)
         {
-            if (textBox.Text == "0")
+            if (textBlock.Text == "0")
             {
-                textBox.Clear();
+                textBlock.Text = "";
             }
-            textBox.Text += "3";
+            textBlock.Text += "3";
+            textBox.Text = textBlock.Text;
+        }
+        private void button16_Click(object send, RoutedEventArgs e)
+        {
+            if (textBlock.Text == "0")
+            {
+                textBlock.Text = "";
+            }
+            textBlock.Text += ".";
+            textBox.Text = textBlock.Text;
+        }
+        private void button17_Click(object send, RoutedEventArgs e)
+        {
+            if (textBlock.Text == "0")
+            {
+                textBlock.Text = "";
+            }
+            textBlock.Text += "0";
+            textBox.Text = textBlock.Text;
         }
 
     }
