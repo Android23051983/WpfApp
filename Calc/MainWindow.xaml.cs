@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,223 +14,161 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPFCalc.Utils;
 
-namespace Calc
+namespace WPFCalc
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        string DecimalSeparator => CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
+        decimal FirstValue { get; set; }
+        decimal? SecondValue { get; set; }
+
+        IOperation CurrentOperation;
+
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += WpfApp_Loaded;
-        }
-        String[] str = { "CE", "C", "<", "/", "7", "8", "9", "*", "4", "5", "6", "-", "1", "2", "3", "+", ".","0" };
-        Button btn = new Button();
-        private void WpfApp_Loaded(object sender, RoutedEventArgs e)
-        {
-            Random rnd = new Random();
-            Button[] btns = new Button[18];
-            for (int i = 0; i < btns.Length; i++)
-            {
-                var r = rnd.Next(0, str.Length);
-                btn = new Button
-                {
-                    FontSize = 40,
-                    Content = str[i],
-                    //Content = str[r], Пример произвольного взятия названия из списка названий.
-                    Margin = new Thickness(2, 2, 2, 2),
-                    //Foreground = new SolidColorBrush(color[r]) Пример произвольного взятия цвета из списка цветов.
-                    Name = "button" + i.ToString(),
-                };
-                gridKeboard.Children.Add(btn);
-                switch (i)
-                {
-                    case 0:
-                        btn.Click += button0_Click;
-                        break;
-                    case 4:
-                        btn.Click += button4_Click;
-                        break;
-                    case 5:
-                        btn.Click += button5_Click;
-                        break;
-                    case 6:
-                        btn.Click += button6_Click;
-                        break;
-                    case 8:
-                        btn.Click += button8_Click;
-                        break;
-                    case 9:
-                        btn.Click += button9_Click;
-                        break;
-                    case 10:
-                        btn.Click += button10_Click;
-                        break;
-                    case 12:
-                        btn.Click += button12_Click;
-                        break; 
-                    case 13:
-                        btn.Click += button13_Click;
-                        break;
-                    case 14:
-                        btn.Click += button14_Click;
-                        break;
-                    case 16:
-                        btn.Click += button16_Click;
-                        break;
-                    case 17:
-                        btn.Click += button17_Click;
-                        break;
-                }
-                   
-                if (i<=3)
-                {
-                    Grid.SetColumn(btn, i);
-                    Grid.SetRow(btn, 0);
-                }
-                else if(i>3 && i<=7)
-                {
-                    Grid.SetColumn(btn, i-4);
-                    Grid.SetRow(btn, 1);
-                }
-                else if(i>7 && i<=11)
-                {
-                    Grid.SetColumn(btn, i - 8);
-                    Grid.SetRow(btn, 2);
-                }
-                else if (i>11 && i<=15)
-                {
-                    Grid.SetColumn(btn, i - 12);
-                    Grid.SetRow(btn, 3);
-                }
-                else if (i>15 && i<=18)
-                {
-                    Grid.SetColumn(btn, i - 16);
-                    Grid.SetRow(btn, 4);
-                }
-            }
-            var btnResult = new Button
-            {
-                FontSize = 40,
-                Content = "=",
-                Margin = new Thickness(2, 2, 2, 2),
-                Name = "button18"
-            };
-            gridKeboard.Children.Add(btnResult);
-            Grid.SetColumn(btnResult, 2);
-            Grid.SetRow(btnResult, 4);
-            Grid.SetColumnSpan(btnResult, 2);
-        }
-        private void button0_Click(object send, RoutedEventArgs e)
-        {
-            if (textBox.Text != "0")
-            {
-                textBox.Text = "0";
-                textBlock.Text = "";
-            }
-        }
-        private void button4_Click(object send, RoutedEventArgs e)
-        {
-            if(textBlock.Text == "0")
-            {
-                textBlock.Text = "";
-            }
-            textBlock.Text += "7";
-            textBox.Text = textBlock.Text; 
-        } 
-        private void button5_Click(object send, RoutedEventArgs e)
-        {
-            if (textBlock.Text == "0")
-            {
-                textBlock.Text = "";
-            }
-            textBlock.Text += "8";
-            textBox.Text = textBlock.Text;
-        }
-        private void button6_Click(object send, RoutedEventArgs e)
-        {
-            if (textBlock.Text == "0")
-            {
-                textBlock.Text = "";
-            }
-            textBlock.Text += "9";
-            textBox.Text = textBlock.Text;
-        }
-        private void button8_Click(object send, RoutedEventArgs e)
-        {
-            if (textBlock.Text == "0")
-            {
-                textBlock.Text = "";
-            }
-            textBlock.Text += "4";
-            textBox.Text = textBlock.Text;
-        }
-        private void button9_Click(object send, RoutedEventArgs e)
-        {
-            if (textBlock.Text == "0")
-            {
-                textBlock.Text = "";
-            }
-            textBlock.Text += "5";
-            textBox.Text = textBlock.Text;
-        }
-        private void button10_Click(object send, RoutedEventArgs e)
-        {
-            if (textBlock.Text == "0")
-            {
-                textBlock.Text = "";
-            }
-            textBlock.Text += "6";
-            textBox.Text = textBlock.Text;
-        }
-        private void button12_Click(object send, RoutedEventArgs e)
-        {
-            if (textBlock.Text == "0")
-            {
-                textBlock.Text = "";
-            }
-            textBlock.Text += "1";
-            textBox.Text = textBlock.Text;
-        }
-        private void button13_Click(object send, RoutedEventArgs e)
-        {
-            if (textBlock.Text == "0")
-            {
-                textBlock.Text = "";
-            }
-            textBlock.Text += "2";
-            textBox.Text = textBlock.Text;
-        }
-        private void button14_Click(object send, RoutedEventArgs e)
-        {
-            if (textBlock.Text == "0")
-            {
-                textBlock.Text = "";
-            }
-            textBlock.Text += "3";
-            textBox.Text = textBlock.Text;
-        }
-        private void button16_Click(object send, RoutedEventArgs e)
-        {
-            if (textBlock.Text == "0")
-            {
-                textBlock.Text = "";
-            }
-            textBlock.Text += ".";
-            textBox.Text = textBlock.Text;
-        }
-        private void button17_Click(object send, RoutedEventArgs e)
-        {
-            if (textBlock.Text == "0")
-            {
-                textBlock.Text = "";
-            }
-            textBlock.Text += "0";
-            textBox.Text = textBlock.Text;
+            btnPoint.Content = DecimalSeparator;
+            btnSum.Tag = new Sum();
+            btnSubtraction.Tag = new Subtraction();
+            btnDivision.Tag = new Division();
+            btnMultiplication.Tag = new Multiplication();
+            txtInput.IsReadOnly = true;
         }
 
+        private void regularButtonClick(object sender, RoutedEventArgs e)
+        {
+            SendToInput(((Button)sender).Content.ToString());
+            txtAll.Text += ((Button)sender).Content.ToString();
+        }
+        private void SendToInput(string content)
+        {
+            //Prevent 0 from appearing on the left of new numbers
+            if (txtInput.Text == "0")
+                txtInput.Text = "";
+
+            txtInput.Text = $"{txtInput.Text}{content}";
+            
+        }
+
+        private void btnPoint_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtInput.Text.Contains(this.DecimalSeparator))
+                return;
+
+            regularButtonClick(sender, e);
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            //Prevent from clearing zero
+            if (txtInput.Text == "0")
+                return;
+
+            txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - 1);
+            if (txtInput.Text == "")
+                txtInput.Text = "0";
+        }
+
+        private void operationButton_Click(object sender, RoutedEventArgs e)
+        {
+            //if current operation is not null then we already have the FirstValue
+            if (CurrentOperation == null)
+                FirstValue = Convert.ToDecimal(txtInput.Text);
+
+            CurrentOperation = (IOperation)((Button)sender).Tag;
+            SecondValue = null;
+            txtInput.Text = "";
+            txtAll.Text += ((Button)sender).Content.ToString();
+        }
+
+        private void Window_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            switch (e.Text)
+            {
+                case "0":
+                case "1":
+                case "2":
+                case "3":
+                case "4":
+                case "5":
+                case "6":
+                case "7":
+                case "8":
+                case "9":
+                    SendToInput(e.Text);
+                    break;
+
+                case "*":
+                    btnMultiplication.PerformClick();
+                    break;
+
+                case "-":
+                    btnSubtraction.PerformClick();
+                    break;
+
+                case "+":
+                    btnSum.PerformClick();
+                    break;
+
+                case "/":
+                    btnDivision.PerformClick();
+                    break;
+
+                case "=":
+                    btnEquals.PerformClick();
+                    break;
+
+                default:
+                    //Can't use directly from switch because it is not a constant
+                    if (e.Text == DecimalSeparator)
+                        btnPoint.PerformClick();
+                    else if (e.Text[0] == (char)8)
+                        btnBack.PerformClick();
+                    else if (e.Text[0] == (char)13)
+                        btnEquals.PerformClick();
+
+                    break;
+            }
+
+            //This will prevent other buttons focus firing its click event on <ENTER> while typing
+            btnEquals.Focus();
+        }
+
+        private void btnEquals_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentOperation == null)
+                return;
+
+            if (txtInput.Text == "")
+                return;
+
+            //SecondValue is used for multiple clicks on Equals bringing the newest result of last operation
+            decimal val2 = SecondValue ?? Convert.ToDecimal(txtInput.Text);
+            try
+            {
+                txtInput.Text = (FirstValue = CurrentOperation.DoOperation(FirstValue, (decimal)(SecondValue = val2))).ToString();
+            }
+            catch (DivideByZeroException)
+            {
+                MessageBox.Show("Can't divide by zero", "Divided by zero", MessageBoxButton.OK, MessageBoxImage.Error);
+                btnClearAll.PerformClick();
+            }
+        }
+
+        private void btnClearEntry_Click(object sender, RoutedEventArgs e)
+            => txtInput.Text = "0";
+
+        private void btnClearAll_Click(object sender, RoutedEventArgs e)
+        {
+            FirstValue = 0;
+            CurrentOperation = null;
+            txtInput.Text = "0";
+            txtAll.Text = txtInput.Text;
+        }
     }
 }

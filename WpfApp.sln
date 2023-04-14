@@ -5,7 +5,7 @@ VisualStudioVersion = 17.6.33513.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp", "WpfApp\WpfApp.csproj", "{FAD00DA6-2E58-4B8B-A496-23F3222784FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calc", "Calc\Calc.csproj", "{F9DE933C-5080-4767-B9AA-FC9D34419280}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFCalc", "Calc\WPFCalc.csproj", "{F9DE933C-5080-4767-B9AA-FC9D34419280}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
